@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="bg-checksize-string-suite.xml" />
+	<munit:test name="get-the-Siz-of-StringFlow-test" doc:id="856d890c-aee2-4acb-b013-59e83128a5e7" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="38698c1f-3832-4e0d-b5a4-3db49d4cdac3" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://gettheSizofStringFlowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://gettheSizofStringFlowtest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-the-Siz-of-StringFlow" doc:id="823acea2-c310-4088-9372-c8ea1f405e03" name="get-the-Siz-of-StringFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="57c39795-6b46-4d97-b248-3173ed0a5d28" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import gettheSizofStringFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="firstName-checksize-stringFlow1-test" doc:id="d4ebc5e1-8690-4db7-8cfe-1b640cb6c8fc" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="30810313-4689-4fc7-a824-f4f0f57ef122" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://firstNamechecksizestringFlow1test\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://firstNamechecksizestringFlow1test\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to firstName-checksize-stringFlow1" doc:id="cb7c6f0f-45bd-421d-84cc-d70e52bdf4bc" name="firstName-checksize-stringFlow1"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="2554bc99-4fc9-4de2-8296-f5a6a788577f" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import firstNamechecksizestringFlow1test::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="lastName-checksize-stringFlow2-test" doc:id="2ce618a3-a5f6-482d-85a2-b3c2b1c7a33a" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="ae3a6e3a-37df-4bbd-a1c1-2c3cb7562260" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://lastNamechecksizestringFlow2test\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://lastNamechecksizestringFlow2test\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to lastName-checksize-stringFlow2" doc:id="00a9ebad-972d-46a0-8195-3d37916bbe2c" name="lastName-checksize-stringFlow2"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="ef62a8fc-51fc-4f02-bd53-9fbc8352ba1e" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import lastNamechecksizestringFlow2test::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="2a85b907-bd44-4726-a739-bbcdc5ee7b5d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="get-the-Siz-of-StringFlow" doc:id="d03ba316-27a3-4bd2-8b48-52307d9c3b38" >
+		<http:listener doc:name="Listener" doc:id="8470c4aa-0c43-427b-948e-f860f8399106" config-ref="HTTP_Listener_config" path="/size"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="695968d9-9903-40ed-8a36-75a5440446a4" >
+			<route >
+				<flow-ref doc:name=" Reference To First Name Flow" doc:id="9f67027a-45db-46fd-abd3-0138dd5fdb2d" name="firstName-checksize-stringFlow1"/>
+			</route>
+			<route >
+				<flow-ref doc:name="Reference To Last Name Size" doc:id="2124f50e-fbc2-452b-a08c-b21e53126061" name="lastName-checksize-stringFlow2"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="85a76ff6-b2f3-4d59-842d-f438abd149ec" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+flatten(payload..payload)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="firstName-checksize-stringFlow1" doc:id="eeabdac3-d8d1-4880-8f75-afc0cf34e78d" >
+		<set-variable value="#[attributes.queryParams.fname]" doc:name="Set Variable" doc:id="a7574b01-d505-4cb8-b2d3-4f98a6ea867d" variableName="fname"/>
+		<ee:transform doc:name="Transform Message" doc:id="8141e326-77e4-4800-9a4e-a2283cfe0be7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"size of First Name": sizeOf(vars.fname default '')]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="lastName-checksize-stringFlow2" doc:id="ddd3bd52-8356-4de7-8b4a-2f95faf881e5" >
+		<set-variable value="#[attributes.queryParams.lname]" doc:name="Set Variable" doc:id="48d57b25-56e3-4546-914e-a82e30e14629" variableName="lname" />
+		<ee:transform doc:name="Transform Message" doc:id="f2965e71-285e-4ac2-ae4a-c908bb6a0714">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+
+"size of Last Name": sizeOf(vars.lname default '')
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
